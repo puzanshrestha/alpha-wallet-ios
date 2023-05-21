@@ -174,6 +174,8 @@ PODS:
   - SipHash (1.2.2)
   - Starscream (3.1.1)
   - StatefulViewController (3.0)
+  - SVGKit (3.1.0):
+    - CocoaLumberjack (~> 3.0)
   - SwiftAlgorithms (1.0.0)
   - SwiftFormat/CLI (0.50.3)
   - SwiftLint (0.50.3)
@@ -227,6 +229,7 @@ DEPENDENCIES:
   - SAMKeychain
   - Starscream (= 3.1.1)
   - StatefulViewController
+  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
   - SwiftFormat/CLI (~> 0.49)
   - SwiftLint (= 0.50.3)
   - TrezorCrypto (from `https://github.com/AlphaWallet/trezor-crypto-ios.git`, commit `50c16ba5527e269bbc838e80aee5bac0fe304cc7`)
@@ -323,6 +326,9 @@ EXTERNAL SOURCES:
   QRCodeReaderViewController:
     :commit: 09da2d4b835589972ecacd022a75bc27b2c1d1bd
     :git: https://github.com/AlphaWallet/QRCodeReaderViewController.git
+  SVGKit:
+    :branch: 3.x
+    :git: https://github.com/SVGKit/SVGKit.git
   TrezorCrypto:
     :commit: 50c16ba5527e269bbc838e80aee5bac0fe304cc7
     :git: https://github.com/AlphaWallet/trezor-crypto-ios.git
@@ -349,6 +355,9 @@ CHECKOUT OPTIONS:
   QRCodeReaderViewController:
     :commit: 09da2d4b835589972ecacd022a75bc27b2c1d1bd
     :git: https://github.com/AlphaWallet/QRCodeReaderViewController.git
+  SVGKit:
+    :commit: e990c43951c3bfa547ec647d6da17d0a01b44078
+    :git: https://github.com/SVGKit/SVGKit.git
   TrezorCrypto:
     :commit: 50c16ba5527e269bbc838e80aee5bac0fe304cc7
     :git: https://github.com/AlphaWallet/trezor-crypto-ios.git
@@ -416,6 +425,7 @@ SPEC CHECKSUMS:
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   StatefulViewController: 4803bf900d44de26074344998e10e041113b5931
+  SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
   SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
   SwiftFormat: 61cda3819dc3a7d69795ce0430e1e1d53c4a4fb2
   SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
@@ -427,6 +437,6 @@ SPEC CHECKSUMS:
   WalletConnectSwift: 6309bf3011b0b30e3e9d1e7449535302a9240f71
   xcbeautify: b2c6b50c9cab6414296898e94cd153e4ea879662
 
-PODFILE CHECKSUM: cd1a058fd92101d519029a17b7cbf211eab037a8
+PODFILE CHECKSUM: 2dae07668baadd179a8b351ba06315b331203de8
 
 COCOAPODS: 1.11.3

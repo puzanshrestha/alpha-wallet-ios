@@ -158,11 +158,20 @@ class FungibleTokenDetailsViewController: UIViewController {
             }
         }
     }
+    
+    private func checkBalanceAndSwap(flow : SwapTokenFlow ){ _ = viewModel.tokenBalancePublisher().sink( receiveValue: { [weak self] balanceViewModel in
+            print(balanceViewModel?.valueDecimal ?? "")
+            if balanceViewModel?.valueDecimal == 0 { self?.show(message: "No available balance to swap")
+                return
+            }
+            self?.delegate?.didTapSwap(swapTokenFlow: flow, in: self!)
+            }
+        )}
 
     private func perform(action: FungibleTokenDetailsViewModel.FungibleTokenAction) {
         switch action {
         case .swap(let flow):
-            delegate?.didTapSwap(swapTokenFlow: flow, in: self)
+            checkBalanceAndSwap(flow:flow)
         case .erc20Transfer(let token):
             delegate?.didTapSend(for: token, in: self)
         case .erc20Receive(let token):

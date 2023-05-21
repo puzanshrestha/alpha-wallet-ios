@@ -51,7 +51,7 @@ class EnabledServersViewModel {
             
         let sections = Publishers.CombineLatest3(testnetEnabled, servers, selectedServers)
             .map { testnetsEnabled, servers, _ -> (mainnets: [RPCServer], testnets: [RPCServer]) in
-                let mainnets = Array(servers.filter { !$0.isTestnet })
+                let mainnets = Array(Constants.defaultTopSortedServers.filter{servers.contains($0)} + servers.filter { !$0.isTestnet && !Constants.defaultTopSortedServers.contains($0) })
                 let testnets = Array(testnetsEnabled ? servers.filter { $0.isTestnet } : [])
 
                 return (mainnets: mainnets, testnets: testnets)

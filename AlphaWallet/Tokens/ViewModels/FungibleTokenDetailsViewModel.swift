@@ -92,6 +92,13 @@ final class FungibleTokenDetailsViewModel {
             viewState: viewState.eraseToAnyPublisher(),
             action: action.eraseToAnyPublisher())
     }
+    
+    func tokenBalancePublisher() -> AnyPublisher<BalanceViewModel?,Never>{
+       return tokensService.tokenViewModelPublisher(for: self.token)
+            .map{ tokenViewModel in
+                tokenViewModel?.balance
+            }.eraseToAnyPublisher()
+    }
 
     private func buildFungibleTokenAction(for action: TokenInstanceAction) -> FungibleTokenAction? {
         switch action.type {

@@ -201,12 +201,22 @@ public class TokenImageFetcherImpl: TokenImageFetcher {
             serverIconImage: serverIconImage)
 
         if contractAddress == Constants.nativeCryptoAddressInDatabase {
-            subject.send(generatedImage)
-            return subject.eraseToAnyPublisher()
+            if(server == .fantom){
+                Task { @MainActor in
+                    if let image = try? await self.fetchFromAssetGitHubRepo(.fantom, contractAddress: contractAddress,server: server) {
+                        let tokenImage = TokenImage(image: .image(.loaded(image: image)), isFinal: true, overlayServerIcon: nil)
+                        subject.send(tokenImage)
+                        
+                    }
+                }
+                
+                
+//            subject.send(generatedImage)
+            return subject.eraseToAnyPublisher()}
         }
 
         if subject.value == nil {
-            subject.send(generatedImage)
+           subject.send(generatedImage)
         }
 
         if let image = generatedImage, image.isFinal {
@@ -219,6 +229,7 @@ public class TokenImageFetcherImpl: TokenImageFetcher {
                 subject.send(tokenImage)
                 return
             }
+        
             if let url = try? TokenImageFetcherImpl.nftCollectionImageUrl(type, balance: balance, size: size) {
                 let tokenImage = TokenImage(image: url, isFinal: true, overlayServerIcon: staticOverlayIcon)
                 subject.send(tokenImage)
@@ -252,9 +263,9 @@ public class TokenImageFetcherImpl: TokenImageFetcher {
     }
 
     private func fetchFromAssetGitHubRepo(_ githubAssetsSource: GithubAssetsURLResolver.Source,
-                                          contractAddress: AlphaWallet.Address) async throws -> UIImage {
+                                          contractAddress: AlphaWallet.Address,server:RPCServer? = nil) async throws -> UIImage {
 
-        let urlString = githubAssetsSource.url(forContract: contractAddress)
+        let urlString = githubAssetsSource.url(forContract: contractAddress, server: server)
         guard let url = URL(string: urlString) else {
             verboseLog("Loading token icon URL: \(urlString) error")
             throw ImageAvailabilityError.notAvailable
@@ -270,9 +281,14 @@ class GithubAssetsURLResolver {
     enum Source: String {
         case alphaWallet = "https://raw.githubusercontent.com/AlphaWallet/iconassets/master/"
         case thirdParty = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/"
+        case fantom = "https://assets.lif3.com/wallet/tokens/"
 
-        func url(forContract contract: AlphaWallet.Address) -> String {
+        func url(forContract contract: AlphaWallet.Address, server: RPCServer?) -> String {
             switch self {
+            case .fantom:
+//                return "\(rawValue)\(server!.symbol)/" + (contract.eip55String.lowercased()) + ".svg"
+                //Getting contractAddress all value 0x0000 for now in .fantom tokens
+                return "https://assets.lif3.com/wallet/tokens/FTM/0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83.svg"
             case .alphaWallet:
                 return rawValue + contract.eip55String.lowercased() + "/" + GithubAssetsURLResolver.file
             case .thirdParty:
